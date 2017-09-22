@@ -1,12 +1,19 @@
 # Intro-Vision-Robotics
 ## Installation Guide
 ### Only on self-managed machines (Non-DICE or VM)
+
 Install python-pip (sudo apt install python-pip)
+
 Upgrade python-pip (sudo pip install --upgrade pip)
+
 Install mercurial (sudo apt install mercurial)
+
 Run sudo apt install autotools-dev libtool automake autoconf
-###Every machine
+
+### Every machine
+
 Navigate to cloned folder
+
 run "source install.bash"
 
 # How to run
