@@ -1,7 +1,9 @@
 WS=$PWD
 pip install cython -I --prefix $WS/VRInstall
+pip install numpy -I --prefix $WS/VRInstall
+pip install scipy -I --prefix $WS/VRInstall
 pip install gym -I --prefix $WS/VRInstall
-hg clone ssh://hg@bitbucket.org/odedevs/ode
+hg clone https://bitbucket.org/odedevs/ode
 cd ode
 echo "Running aclocal"
 aclocal --force -I m4 --install || exit 1
@@ -26,8 +28,9 @@ fi;
 ./configure --prefix=$WS/VRInstall --disable-demos --enable-shared --enable-static --with-pic
 
 make install
+cd $WS
 source setup.bash
-cd bindings/python
+cd ode/bindings/python
 pip install . -I --prefix $WS/VRInstall
 pip install opencv-python -I --prefix $WS/VRInstall
 cd $WS
