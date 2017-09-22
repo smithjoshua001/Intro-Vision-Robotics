@@ -18,3 +18,5 @@ run "source install.bash"
 
 # How to run
 On every new terminal you will have to navigate to the cloned folder and run "source setup.bash". This is to initialize the relevant environment variables.
+
+This can also be achieved by adding "source /path/to/setup.bash" at the end of your .bashrc file
