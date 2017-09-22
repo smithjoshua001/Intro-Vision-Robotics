@@ -1,5 +1,6 @@
 # Intro-Vision-Robotics
 ## Installation Guide
+Install python-pip (Already installed on DICE and VM)  
 Navigate to cloned folder
 run "source install.bash"
 
