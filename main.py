@@ -13,19 +13,19 @@ class MainReacher():
         self.env.reset()
 
     def detect_blue(self,image):
-        #In this method you can focus on detecting the blue circle
+        #In this method you can focus on detecting the center of the blue circle
         return
 
     def detect_green(self,image):
-        #In this method you should focus on detecting the green circle
+        #In this method you should focus on detecting the center of the green circle
         return
 
     def detect_red(self,image):
-        #In this method you should focus on detecting the red circle
+        #In this method you should focus on detecting the center of the red circle
         return
 
     def detect_target(self,image):
-        #Detect the target circle (Colour: [200,200,200])
+        #Detect the center of the target circle (Colour: [200,200,200])
         return
 
     def detect_joint_angles(self,image):
@@ -43,7 +43,7 @@ class MainReacher():
 
     def coordinate_convert(self,pixels):
         #Converts pixels into metres
-        return np.array([(pixels[0]-self.env.viewerSize)/self.env.resolution,(pixels[0]-self.env.viewerSize)/self.env.resolution])
+        return np.array([(pixels[0]-self.env.viewerSize/2)/self.env.resolution,(pixels[0]-self.env.viewerSize/2)/self.env.resolution])
 
     def go(self):
         #The robot has several simulated modes:
@@ -57,6 +57,8 @@ class MainReacher():
         self.env.controlMode="POS"
         #Run 100000 iterations
         for _ in range(100000):
+            #The change in time between iterations can be found in the self.env.dt variable
+            dt = self.env.dt
             #self.env.render returns and rgb_array containing the image of the robot
             rgb_array = self.env.render()
             jointAngles = np.array([0.9,0,-1.5])
