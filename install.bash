@@ -1,4 +1,6 @@
 WS=$PWD
+pip install -I --prefix $WS/VRInstall --upgrade pip
+export PATH=$PWD/VRInstall/bin:$PATH
 pip install cython -I --prefix $WS/VRInstall
 pip install numpy -I --prefix $WS/VRInstall
 pip install scipy -I --prefix $WS/VRInstall
