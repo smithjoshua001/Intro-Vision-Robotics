@@ -43,7 +43,7 @@ class MainReacher():
 
     def coordinate_convert(self,pixels):
         #Converts pixels into metres
-        return np.array([(pixels[0]-self.env.viewerSize/2)/self.env.resolution,(pixels[0]-self.env.viewerSize/2)/self.env.resolution])
+        return np.array([(pixels[0]-self.env.viewerSize/2)/self.env.resolution,(pixels[1]-self.env.viewerSize/2)/self.env.resolution])
 
     def go(self):
         #The robot has several simulated modes:
