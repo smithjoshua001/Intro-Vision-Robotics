@@ -134,14 +134,10 @@ class MainReacher():
             dt = self.env.dt
             #self.env.render returns and rgb_array containing the image of the robot
             rgb_array = self.env.render()
-            detectedJointAngles = self.detect_joint_angles(rgb_array)
-            prev_jvs.append(self.angle_normalize(detectedJointAngles-prev_JAs))
-            #print (sum(prev_jvs)/len(prev_jvs))
-            detectedJointVels = (sum(prev_jvs)/len(prev_jvs))/dt
-            prev_JAs = detectedJointAngles
+
             jointAngles = np.array([3.14,-2,-1.14])
             #jointAngles = np.array([0,3.14,3.14])
-            self.env.step((detectedJointAngles,detectedJointVels,jointAngles, np.zeros(3)))
+            self.env.step((np.zeros(3),np.zeros(3),jointAngles, np.zeros(3)))
             #The step method will send the control input to the robot, the parameters are as follows: (Current Joint Angles/Error, Current Joint Velocities, Desired Joint Angles, Torque input) 
 
 #main method
