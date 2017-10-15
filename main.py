@@ -107,9 +107,15 @@ class MainReacher():
         return
 
     def FK(self,joint_angles):
-        #Forward Kinematics to calculate end effector location
+        #Forward Kinematics using homogenous matrices to calculate end effector location
         #Each link is 1m long
         return
+
+    def FK_analytic(self,joint_angles):
+        #Forward Kinematics using the analytic equation
+        #Each link is 1m long
+        return
+
 
     def coordinate_convert(self,pixels):
         #Converts pixels into metres
