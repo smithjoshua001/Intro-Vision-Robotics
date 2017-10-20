@@ -107,7 +107,7 @@ class MainReacher():
         return
 
     def FK(self,joint_angles):
-        #Forward Kinematics using homogenous matrices to calculate end effector location
+        #Forward Kinematics using homogeneous matrices to calculate end effector location
         #Each link is 1m long
         return
 
@@ -116,6 +116,17 @@ class MainReacher():
         #Each link is 1m long
         return
 
+    def Jacobian(self,joint_angles):
+        #Geometric Jacobian
+        return
+
+    def Jacobian_analytic(self,joint_angles):
+        #Analytic Jacobian
+        return
+
+    def IK(self, current_joint_angles, desired_position):
+        #Inverse Kinematics calculations
+        return
 
     def coordinate_convert(self,pixels):
         #Converts pixels into metres
