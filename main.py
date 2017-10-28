@@ -15,75 +15,75 @@ class MainReacher():
     def detect_l1(self,image,quadrant):
         #The quadrant parameter should be set to the location of the end of the link whether it is in the upper-right (UR), upper-left (UL), lower-right (LR), lower-left (LL) quarter with respect to the previous joint. This will tell you the angle sign and values
         #In this method you can focus on detecting the rotation of link 1, colour:(102,102,102)
-        
+
         if quadrant == "UR":
             #should be between 0 and math.pi/2
-            
-            return 
+
+            return
         elif quadrant == "UL":
             #should be between math.pi/2 and math.pi
-            
-            return 
+
+            return
         elif quadrant == "LR":
             #should be between -0 and -math.pi/2
-            
+
             return
         elif quadrant == "LL":
             #should be between -math.pi/2 and -math.pi
-            
+
             return
 
     def detect_l2(self,image,quadrant):
         #The quadrant parameter should be set to the location of the end of the link whether it is in the upper-right (UR), upper-left (UL), lower-right (LR), lower-left (LL) quarter with respect to the previous joint. This will tell you the angle sign and values
         #In this method you can focus on detecting the rotation of link 2, colour:(51,51,51)
-        
+
         if quadrant == "UR":
             #should be between 0 and math.pi/2
-            
-            return 
+
+            return
         elif quadrant == "UL":
             #should be between math.pi/2 and math.pi
-            
-            return 
+
+            return
         elif quadrant == "LR":
             #should be between -0 and -math.pi/2
-            
+
             return
         elif quadrant == "LL":
             #should be between -math.pi/2 and -math.pi
-            
+
             return
 
     def detect_l3(self,image,quadrant):
         #The quadrant parameter should be set to the location of the end of the link whether it is in the upper-right (UR), upper-left (UL), lower-right (LR), lower-left (LL) quarter with respect to the previous joint. This will tell you the angle sign and values
         #In this method you can focus on detecting the rotation of link 3, colour:(0,0,0)
-        
+
         if quadrant == "UR":
             #should be between 0 and math.pi/2
-            
-            return 
+
+            return
         elif quadrant == "UL":
             #should be between math.pi/2 and math.pi
-            
-            return 
+
+            return
         elif quadrant == "LR":
             #should be between -0 and -math.pi/2
-            
+
             return
         elif quadrant == "LL":
             #should be between -math.pi/2 and -math.pi
-            
+
             return
 
 
     def detect_blue(self,image):
         #In this method you can focus on detecting the center of the blue circle
-        
+
         return
 
     def detect_green(self,image):
         #In this method you should focus on detecting the center of the green circle
-        
+
         return
 
     def detect_red(self,image):
@@ -100,7 +100,7 @@ class MainReacher():
 
     def detect_joint_angles_chamfer(self,image):
         #Calculate the relevant joint angles from the image
-        return 
+        return
 
     def detect_ee(self,image):
         #Detect the end effector location
@@ -132,6 +132,26 @@ class MainReacher():
         #Converts pixels into metres
         return np.array([(pixels[0]-self.env.viewerSize/2)/self.env.resolution,-(pixels[1]-self.env.viewerSize/2)/self.env.resolution])
 
+    def js_pd_control(self, current_joint_angles, current_joint_velocities, desired_joint_angles):
+        #Calculate the torque required to reach the desired joint angles using a PD controller (JOINT SPACE)
+        #Assume desired velocities are zero
+        return
+
+    def ts_pd_control(self, current_joint_angles, current_joint_velocities, desired_position):
+        #Calculate the torque required to reach the desired position using a PD controller (TASK SPACE)
+        #Assume desired velocities are zero
+        return
+
+    def js_pd_grav_control(self, current_joint_angles, current_joint_velocities, desired_joint_angles):
+        #Calculate the torque required to reach the desired joint angles using a PD controller with gravity compensation (JOINT SPACE)
+        #Assume desired velocities are zero
+        return
+
+    def ts_pd_grav_control(self, current_joint_angles, current_joint_velocities, desired_position):
+        #Calculate the torque required to reach the desired position using a PD controller with gravity compensation (TASK SPACE)
+        #Assume desired velocities are zero
+        return
+
     def go(self):
         #The robot has several simulated modes:
         #These modes are listed in the following format:
@@ -155,7 +175,7 @@ class MainReacher():
             jointAngles = np.array([3.14,-2,-1.14])
             #jointAngles = np.array([0,3.14,3.14])
             self.env.step((np.zeros(3),np.zeros(3),jointAngles, np.zeros(3)))
-            #The step method will send the control input to the robot, the parameters are as follows: (Current Joint Angles/Error, Current Joint Velocities, Desired Joint Angles, Torque input) 
+            #The step method will send the control input to the robot, the parameters are as follows: (Current Joint Angles/Error, Current Joint Velocities, Desired Joint Angles, Torque input)
 
 #main method
 def main():
