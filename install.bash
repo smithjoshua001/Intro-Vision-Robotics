@@ -35,6 +35,7 @@ source setup.bash
 cd ode/bindings/python
 pip install . -I --prefix $WS/VRInstall
 pip install opencv-python -I --prefix $WS/VRInstall
+pip install pyquaternion -I --prefix $WS/VRInstall
 cd $WS
 source setup.bash
 echo "Finished!\n"
