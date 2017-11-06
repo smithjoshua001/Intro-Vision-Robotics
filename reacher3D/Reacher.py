@@ -106,6 +106,9 @@ class ReacherEnv(gym.Env):
         self.targetPos = self.rand_target()
 
         self.targetTime = 0
+        self.targetTime2 = 0
+        self.success = 0
+        self.fail = 0
         self.P_gains = np.array([1000,1000,1000,1000])
         self.D_gains = np.array([70,50,40,20])
 
@@ -136,16 +139,18 @@ class ReacherEnv(gym.Env):
         self.invalpos += pos
         self.targetGeom = ode.GeomSphere(self.space, radius=0.1)
         self.targetGeom.setPosition((pos[0],pos[1],pos[2]))
-        spikes = [3,5,7,9]
+        spikes = [3,4,5,7,9]
         temp= np.random.randint(3)
-        self.targetParams = [0.08,spikes[temp]]
-        self.invalidParams= [0.05,1,0.10*np.random.rand()+0.4]
+        self.targetParams = [0.12,spikes[temp]]
+        self.invalidParams= [0.08,1,0.10*np.random.rand()+0.4]
         self.target = rendering.make_valid_target(self.targetParams[0],self.targetParams[1])
         self.targetTrans = rendering.Transform()
         self.target.add_attr(self.targetTrans)
         self.invalid_target = rendering.make_invalid_target(self.invalidParams[0],self.invalidParams[1],self.invalidParams[2])
         self.invalidTargetTrans = rendering.Transform()
         self.invalid_target.add_attr(self.invalidTargetTrans)
+        self.intargetGeom = ode.GeomSphere(self.space, radius=0.1)
+        self.intargetGeom.setPosition((self.invalpos[0],self.invalpos[1],self.invalpos[2]))
         return pos
 
     def near_callback(self,args, geom1, geom2):
@@ -157,9 +162,15 @@ class ReacherEnv(gym.Env):
         # Check if the objects do collide
         contacts = ode.collide(geom1, geom2)
         if(len(contacts)>0):
-            self.targetTime+=self.dt
+            if geom2 == self.targetGeom:
+                self.targetTime+=self.dt
+            if geom2 == self.intargetGeom:
+                self.targetTime2+=self.dt
         else:
-            self.targetTime=0
+            if geom2 == self.targetGeom:
+                self.targetTime=0
+            if geom2 == self.intargetGeom:
+                self.targetTime2=0
 
     def _step(self,(jas,jvs,target_ja,torques)):
         if(self.controlMode=="POS"):
@@ -191,9 +202,16 @@ class ReacherEnv(gym.Env):
             self.j5.addTorque(torques[3])
         self.world.step(self.dt)
         self.space.collide(self.world,self.near_callback)
-        if(self.targetTime>1):
+        if(self.targetTime>1 or self.targetTime2>1):
             self.targetPos=self.rand_target()
+            if(self.targetTime>1):
+                self.success += 1
+            else:
+                self.fail +=1
             self.targetTime=0
+            self.targetTime2=0
+            print 'success', self.success
+            print 'fail', self.fail
 
     def _reset(self):
         high = np.array([np.pi, 1])
@@ -227,7 +245,7 @@ class ReacherEnv(gym.Env):
             self.pole_transform11 = rendering.Transform()
             rod1.add_attr(self.pole_transform1)
             rod1.add_attr(self.pole_transform11)
-            self.viewer.add_geom(rod1)
+
 
 
             rod2 = rendering.make_cuboid(1, .2)
@@ -236,7 +254,7 @@ class ReacherEnv(gym.Env):
             self.pole_transform21 = rendering.Transform()
             rod2.add_attr(self.pole_transform2)
             rod2.add_attr(self.pole_transform21)
-            self.viewer.add_geom(rod2)
+
 
             rod3 = rendering.make_cuboid(1, .1)
             rod3.set_color(0,0,0)
@@ -244,7 +262,7 @@ class ReacherEnv(gym.Env):
             self.pole_transform31 = rendering.Transform()
             rod3.add_attr(self.pole_transform3)
             rod3.add_attr(self.pole_transform31)
-            self.viewer.add_geom(rod3)
+
 
             rod5 = rendering.make_cuboid(1, .1)
             rod5.set_color(0.5,0.5,0.5)
@@ -252,7 +270,7 @@ class ReacherEnv(gym.Env):
             self.pole_transform51 = rendering.Transform()
             rod5.add_attr(self.pole_transform5)
             rod5.add_attr(self.pole_transform51)
-            self.viewer.add_geom(rod5)
+
 
             axle1 = rendering.make_sphere(0.25)
             axle1.set_color(1,0,0)
@@ -262,14 +280,14 @@ class ReacherEnv(gym.Env):
 
             self.axle_transform12 = rendering.Transform()
             axle1.add_attr(self.axle_transform12)
-            axle2 = rendering.make_sphere(.20)
+            axle2 = rendering.make_sphere(.22)
             axle2.set_color(0,1,0)
             self.axle_transform2 = rendering.Transform()
             axle2.add_attr(self.axle_transform2)
             self.axle_transform22 = rendering.Transform()
             axle2.add_attr(self.axle_transform22)
 
-            axle3 = rendering.make_sphere(.15)
+            axle3 = rendering.make_sphere(.18)
             axle3.set_color(0,0,1)
             self.axle_transform3 = rendering.Transform()
             axle3.add_attr(self.axle_transform3)
@@ -277,16 +295,20 @@ class ReacherEnv(gym.Env):
             axle3.add_attr(self.axle_transform32)
 
 
-            axle5 = rendering.make_sphere(.1)
+            axle5 = rendering.make_sphere(.13)
             axle5.set_color(0,0,0.5)
             self.axle_transform5 = rendering.Transform()
             axle5.add_attr(self.axle_transform5)
             self.axle_transform52 = rendering.Transform()
             axle5.add_attr(self.axle_transform52)
-
+            self.viewer.add_geom(rod1)
+            self.viewer.add_geom(rod2)
             self.viewer.add_geom(axle1)
+            self.viewer.add_geom(rod3)
             self.viewer.add_geom(axle2)
+            self.viewer.add_geom(rod5)
             self.viewer.add_geom(axle3)
+
             self.viewer.add_geom(axle5)
 
 
@@ -302,6 +324,7 @@ class ReacherEnv(gym.Env):
         self.invalidTargetTrans.set_translation(self.invalpos[0],self.invalpos[1],self.invalpos[2])
 
         self.ground_truth_joint_angles = np.array([self.j1.getAngle(), self.j2.getAngle(),self.j3.getAngle(),self.j5.getAngle()])
+        self.ground_truth_joint_velocities = np.array([self.j1.getAngleRate(), self.j2.getAngleRate(),self.j3.getAngleRate(),self.j5.getAngleRate()])
         self.ground_truth_valid_target = self.targetPos.T.flatten()
         self.ground_truth_end_effector = self.body4.getPosition()
         return self.viewer.render(True)
