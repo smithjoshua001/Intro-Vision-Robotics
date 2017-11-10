@@ -8,6 +8,8 @@ Upgrade python-pip (sudo pip install --upgrade pip)
 
 Install mercurial (sudo apt install mercurial)
 
+Install git (sudo apt install git)
+
 Run sudo apt install autotools-dev libtool automake autoconf
 
 ### Every machine
