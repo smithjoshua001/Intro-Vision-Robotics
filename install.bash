@@ -4,7 +4,7 @@ export PATH=$PWD/VRInstall/bin:$PATH
 pip install cython -I --prefix $WS/VRInstall
 pip install numpy -I --prefix $WS/VRInstall
 pip install scipy -I --prefix $WS/VRInstall
-pip install gym -I --prefix $WS/VRInstall
+pip install 'gym<=0.7.3' -I --prefix $WS/VRInstall
 hg clone https://bitbucket.org/odedevs/ode
 cd ode
 echo "Running aclocal"

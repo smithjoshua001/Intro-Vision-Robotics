@@ -178,6 +178,7 @@ class ReacherEnv(gym.Env):
         if(self.targetTime>1.0):
             self.targetPos=self.rand_target()
             self.targetTime=0
+        return self._get_obs(), 0, False, {}
 
     def _reset(self):
         high = np.array([np.pi, 1])
